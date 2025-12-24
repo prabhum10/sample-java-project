@@ -2,7 +2,7 @@
 plugins {
     id 'java'
     id 'application'
-    // id 'maven-publish' // uncomment if you publish
+    // id 'maven-publish' // uncomment if you plan to publish
 }
 
 group = 'com.example'
@@ -18,13 +18,13 @@ java {
 }
 
 dependencies {
-    // Use BOM to keep all JUnit modules in sync
+    // Keep JUnit modules aligned via BOM
     testImplementation platform('org.junit:junit-bom:5.10.2')
 
     // JUnit 5 API + engine
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    // Ensure the JUnit Platform launcher is available in CI
+    // Ensure JUnit Platform launcher is present for CI
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
@@ -35,11 +35,12 @@ test {
     testLogging {
         events "failed", "skipped", "passed"
         exceptionFormat "full"
-               showExceptions true
+        showExceptions true
         showStackTraces true
     }
 }
 
 application {
-    // Gradle Groovy DSL syntax is fine
+    // Gradle Groovy DSL
     mainClass = 'com.example.App'
+}
