@@ -2,10 +2,6 @@
 name: Build & Publish to GitHub Packages
 
 on:
-  push:
-    branches: [ "main" ]
-    tags:
-      - 'v*'    # optional: publish on version tags too
   workflow_dispatch:
 
 permissions:
