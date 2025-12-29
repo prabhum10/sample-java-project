@@ -1,28 +1,29 @@
 plugins {
-    id 'java'
-    id 'application'
+    id 'java'         // or 'java-library', plus your other plugins
+    id 'maven-publish'
 }
 
-group 'com.example'
-version '1.0-SNAPSHOT'
+group = 'com.example'       // replace
+version = '1.0.0'           // set dynamically if you prefer
 
-repositories {
-    mavenCentral()
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-}
-
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.2'
-}
-
-test {
-    useJUnitPlatform()
-}
-
-application {
-    mainClass = 'com.example.App'
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+            // If you produce additional artifacts (sources/javadoc), add:
+            // artifact tasks.sourcesJar
+            // artifact tasks.javadocJar
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/<OWNER>/<REPOSITORY>")
+            credentials {
+                // In Actions, GITHUB_ACTOR/GITHUB_TOKEN are provided automatically.
+                username = System.getenv("GITHUB_ACTOR") ?: project.findProperty("gpr.user")
+                password = System.getenv("GITHUB_TOKEN") ?: project.findProperty("gpr.token")
+            }
+        }
+    }
 }
