@@ -38,12 +38,7 @@ jobs:
         run: ./gradlew clean build -x test
         # If you want tests, remove -x test
 
-      # Optional: run tests
-      # - name: Test
-      #   run: ./gradlew test
-
       - name: Publish to GitHub Packages (Maven)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # or use a PAT via secrets.GH_PAT
         run: ./gradlew publish
-``
