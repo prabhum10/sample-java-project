@@ -5,6 +5,7 @@ WORKDIR /app
 
 # Copy pre-built JAR from gradle build output
 COPY build/libs/*.jar ./
+RUN mv *.jar application.jar
 
 # Expose port (adjust as needed)
 EXPOSE 8080
