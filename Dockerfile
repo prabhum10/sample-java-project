@@ -1,13 +1,15 @@
-﻿# Use pre-built JAR from gradle build
+# Stage 1: Build with Gradle
+FROM gradle:8.5-jdk17 AS builder
+
+WORKDIR /build
+COPY . .
+RUN gradle build -x test
+
+# Stage 2: Runtime
 FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
+COPY --from=builder /build/build/libs/*.jar ./application.jar
 
-# Copy pre-built JAR from gradle build output
-COPY build/libs/*.jar ./
-
-# Expose port (adjust as needed)
 EXPOSE 8080
-
-# Run the application
 ENTRYPOINT ["java", "-jar", "application.jar"]
