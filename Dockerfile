@@ -14,16 +14,11 @@ FROM eclipse-temurin:17-jre-alpine
 
 WORKDIR /app
 
-# Copy JAR from builder stage - copy all jars to temp directory then rename
+# Copy all JARs from builder
 COPY --from=builder /build/build/libs/*.jar /app/
-RUN mv /app/*.jar /app/application.jar
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD java -cp application.jar -version || exit 1
-
-# Expose port (adjust as needed)
+# Expose port
 EXPOSE 8080
 
-# Run the application
-ENTRYPOINT ["java", "-jar", "application.jar"]
+# Run any jar file found (shell expands wildcard at runtime)
+CMD ["sh", "-c", "java -jar /app/*.jar"]
